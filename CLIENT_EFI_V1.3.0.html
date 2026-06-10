@@ -1,0 +1,217 @@
+<!DOCTYPE html> 
+<html style="width:100%;height:100%;background-color:black;"> 
+<head> 
+<meta charset="UTF-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" /> 
+<meta name="description" content="EaglercraftX 1.8 Offline" /> 
+<meta name="keywords" content="eaglercraft, eaglercraftx, minecraft, 1.8, 1.8.8" /> 
+<title>EaglercraftX 1.8</title> 
+<meta property="og:locale" content="en-US" /> 
+<meta property="og:type" content="website" /> 
+<meta property="og:title" content="EaglercraftX 1.8 Offline" /> 
+<meta property="og:description" content="this file is not a website, whoever uploaded it to this URL is a dumbass" /> 
+<script type="text/javascript"> 
+"use strict"; 
+"use strict"; 
+var relayId = Math.floor(Math.random() * 3); // %%%%%%%%% launch options %%%%%%%%%%%% 
+
+window.eaglercraftXOpts = { 
+    container: "game_frame", 
+    worldsDB: "worlds", 
+    resourcePacks: [ 
+        { url: "https://cdn.jsdelivr.net/gh/TerryYang80/TerryThe67Rizzler@main/ResourcePacks/A%20Sky%20That%20Remembers%20Magic.zip", name: "a_sky_that_remembers_magic", id: "sky_magic" }, 
+        { url: "https://cdn.jsdelivr.net/gh/TerryYang80/TerryThe67Rizzler@main/ResourcePacks/Bare%20Bones%201.8.9.zip", name: "bare_bones", id: "bare_bones" }, 
+        { url: "https://cdn.jsdelivr.net/gh/TerryYang80/TerryThe67Rizzler@main/ResourcePacks/CustomSky.zip", name: "terrys_custom_sky", id: "custom_sky" }, 
+        { url: "https://cdn.jsdelivr.net/gh/TerryYang80/TerryThe67Rizzler@main/ResourcePacks/Green%20Haze%20Sky%20Overlay.zip", name: "green_haze_sky", id: "green_haze" }, 
+        { url: "https://cdn.jsdelivr.net/gh/TerryYang80/TerryThe67Rizzler@main/ResourcePacks/LowOnFire_1.8.9.zip", name: "low_on_fire", id: "low_fire" }, 
+        { url: "https://cdn.jsdelivr.net/gh/TerryYang80/TerryThe67Rizzler@main/ResourcePacks/MS%20Painted%20for%201.8%20(v2.0).zip", name: "ms_painted", id: "ms_paint" }, 
+        { url: "https://cdn.jsdelivr.net/gh/TerryYang80/TerryThe67Rizzler@main/ResourcePacks/Overgrown%20Flowery%20GUI.zip", name: "overgrown_flowery", id: "flowery_gui" }, 
+        { url: "https://cdn.jsdelivr.net/gh/TerryYang80/TerryThe67Rizzler@main/ResourcePacks/Pink%20Horizon%20Sky%20Overlay.zip", name: "pink_horizon_overlay", id: "pink_horizon" }, 
+        { url: "https://cdn.jsdelivr.net/gh/TerryYang80/TerryThe67Rizzler@main/ResourcePacks/Serified%20Font%20v1.1%20f1-34.zip", name: "serified_font", id: "serif_font" }, 
+        { url: "https://cdn.jsdelivr.net/gh/TerryYang80/TerryThe67Rizzler@main/ResourcePacks/Synthwave%20City%20Sky%20Overlay.zip", name: "synthwave_city", id: "synthwave" }, 
+        { url: "https://cdn.jsdelivr.net/gh/TerryYang80/TerryThe67Rizzler@main/ResourcePacks/TransparentGUI-1.8.8-9-R2.2.zip", name: "transparent_gui", id: "trans_gui" }, 
+        { url: "https://cdn.jsdelivr.net/gh/TerryYang80/TerryThe67Rizzler@main/ResourcePacks/hephaestus_legacy.zip", name: "hephaestus_legacy", id: "hephaestus" }, 
+        { url: "https://cdn.jsdelivr.net/gh/TerryYang80/TerryThe67Rizzler@main/ResourcePacks/%C2%A78b%C2%A77o%C2%A78w%20%C2%A78%5B%C2%A7716x%C2%A78%5D%20%C2%A771.8.zip", name: "bow", id: "bow_pack" }, 
+        { url: "https://cdn.jsdelivr.net/gh/TerryYang80/TerryThe67Rizzler@main/ResourcePacks/%C2%A7cTerry's%20Old%20MC%20Textures.zip", name: "old_textures", id: "terry_old" }, 
+        { url: "https://cdn.jsdelivr.net/gh/TerryYang80/TerryThe67Rizzler@main/ResourcePacks/%E2%99%A5%20BestSaturationPack%20(1.8.x).zip", name: "saturation_pack", id: "saturation" } 
+    ], 
+    relays: [ 
+        { addr: "wss://relay.deev.is/", comment: "lax1dude relay #1", primary: relayId == 0 }, 
+        { addr: "wss://relay.lax1dude.net/", comment: "lax1dude relay #2", primary: relayId == 1 }, 
+        { addr: "wss://relay.shhnowisnottheti.me/", comment: "ayunami relay #1", primary: relayId == 2 } 
+    ], 
+    servers: [ 
+        { addr: "wss://arch.mc", name: "§d§lArchMC" } 
+    ]
+}; // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+</script> 
+<script src="https://cdn.jsdelivr.net/gh/TerryYang80/TerryThe67Rizzler@main/MAINJS/mainV300.js"></script> 
+<script type="text/javascript"> 
+"use strict"; 
+
+var assetsReady = false; 
+
+// Fixed internal database builder
+function getDB() { 
+    return new Promise((resolve, reject) => { 
+        const request = indexedDB.open("EaglercraftX_Packs_Cache", 1); 
+        request.onupgradeneeded = (e) => { 
+            const db = e.target.result; 
+            if (!db.objectStoreNames.contains("packs")) { 
+                db.createObjectStore("packs", { keyPath: "name" }); 
+            } 
+        }; 
+        request.onsuccess = (e) => resolve(e.target.result); 
+        request.onerror = (e) => reject(e.target.error); 
+    }); 
+} 
+
+(async function prepareGameData() { 
+    // 1. STITCH ASSETS 
+    const assetParts = [ 
+        "https://raw.githubusercontent.com/TerryYang80/TerryThe67Rizzler/main/Assets/assetsV300.epk.part_aa", 
+        "https://raw.githubusercontent.com/TerryYang80/TerryThe67Rizzler/main/Assets/assetsV300.epk.part_ab", 
+        "https://raw.githubusercontent.com/TerryYang80/TerryThe67Rizzler/main/Assets/assetsV300.epk.part_ac" 
+    ]; 
+    
+    try { 
+        console.log("Downloading custom textures..."); 
+        const assetBuffers = await Promise.all(assetParts.map(url => fetch(url).then(res => { 
+            if (!res.ok) throw new Error("Asset chunk missing"); 
+            return res.arrayBuffer(); 
+        }))); 
+        const combinedBlob = new Blob(assetBuffers, { type: "application/octet-stream" }); 
+        window.eaglercraftXOpts.assetsURI = URL.createObjectURL(combinedBlob); 
+        console.log("Assets stitched successfully.");
+    } catch (err) { 
+        console.error("Asset fallback triggered:", err); 
+        window.eaglercraftXOpts.assetsURI = "https://web.arch.mc/assetsV300.epk"; 
+    } 
+
+    // 2. RESOURCE PACK STORAGE OVERRIDE
+    try { 
+        const db = await getDB(); 
+        
+        window.eaglercraftXOpts.resourcePacks = await Promise.all(window.eaglercraftXOpts.resourcePacks.map(async (pack) => { 
+            return new Promise((resolve) => { 
+                const tx = db.transaction("packs", "readonly"); 
+                const store = tx.objectStore("packs"); 
+                const getReq = store.get(pack.name); 
+                
+                getReq.onsuccess = async (e) => { 
+                    const cached = e.target.result; 
+                    if (cached) { 
+                        console.log(`Loaded from local application cache: ${pack.name}`); 
+                        pack.url = URL.createObjectURL(cached.blob); 
+                        resolve(pack); 
+                    } else { 
+                        console.log(`First-time cache download for: ${pack.name}`); 
+                        try {
+                            const res = await fetch(pack.url); 
+                            if (res.ok) { 
+                                const blob = await res.blob(); 
+                                const putTx = db.transaction("packs", "readwrite"); 
+                                putTx.objectStore("packs").put({ name: pack.name, blob: blob }); 
+                                pack.url = URL.createObjectURL(blob); 
+                            } 
+                        } catch(err) {
+                            console.error(`Failed loading ${pack.name} from web, leaving defaults.`);
+                        }
+                        resolve(pack); 
+                    } 
+                }; 
+                getReq.onerror = () => resolve(pack);
+            }); 
+        })); 
+        console.log("All resource packs verified!");
+    } catch (dbErr) { 
+        console.error("Local database cache indexing failed", dbErr); 
+    } 
+
+    assetsReady = true; 
+})(); 
+
+// YOUR EXACT ORIGINAL TIME CODE
+const countNumb = 1000; 
+(function(){ 
+    var launchInterval = -1; 
+    var launchCounter = 1; 
+    var launchCountdownNumberElement = null; 
+    var launchCountdownProgressElement = null; 
+    var launchSkipCountdown = false; 
+    var launchTick = function() { 
+        launchCountdownNumberElement.innerText = "" + Math.floor(1000.0 - launchCounter * 0.06); 
+        launchCountdownProgressElement.style.width = "" + launchCounter + "%"; 
+        if(++launchCounter > countNumb || launchSkipCountdown) { 
+            if (!assetsReady) { 
+                launchCounter--; 
+                return; 
+            } 
+            clearInterval(launchInterval); 
+            setTimeout(function() { 
+                var screen = document.getElementById("launch_countdown_screen"); 
+                if (screen) { 
+                    document.body.removeChild(screen); 
+                } 
+                document.body.style.backgroundColor = "black"; 
+                if (typeof main === "function") main(); 
+            }, countNumb); 
+        } 
+    }; 
+    window.addEventListener("load", function() { 
+        launchCountdownNumberElement = document.getElementById("launchCountdownNumber"); 
+        launchCountdownProgressElement = document.getElementById("launchCountdownProgress"); 
+        launchInterval = setInterval(launchTick, countNumb); 
+        document.getElementById("bootMenu").addEventListener("click", function() { 
+            launchSkipCountdown = true; 
+            if (!window.eaglercraftXOpts) window.eaglercraftXOpts = {}; 
+            window.eaglercraftXOpts.showBootMenuOnLaunch = true; 
+        }); 
+        var classroomBtn = document.getElementById("ClassroomX"); 
+        if (classroomBtn) { 
+            classroomBtn.addEventListener("click", function() { 
+                launchSkipCountdown = true; 
+                document.title = "Home - Classroom"; 
+                var link = document.querySelector("link[rel*='icon']") || document.createElement('link'); 
+                link.type = 'image/x-icon'; 
+                link.rel = 'shortcut icon'; 
+                link.href = 'https://raw.githubusercontent.com/TerryYang80/TerryThe67Rizzler/main/192px.svg'; 
+                document.getElementsByTagName('head')[0].appendChild(link); 
+                alert("Google Classroom X Injected"); 
+            }); 
+        }; 
+        var driveBtn = document.getElementById("DriveX"); 
+        if (driveBtn) { 
+            driveBtn.addEventListener("click", function() { 
+                launchSkipCountdown = true; 
+                document.title = "Recent - Google Drive"; 
+                var link = document.querySelector("link[rel*='icon']") || document.createElement('link'); 
+                link.type = 'image/x-icon'; 
+                link.rel = 'shortcut icon'; 
+                link.href = 'https://raw.githubusercontent.com/TerryYang80/TerryThe67Rizzler/main/DriveFavicon.png'; 
+                document.getElementsByTagName('head')[0].appendChild(link); 
+                alert("Google Drive X Injected"); 
+            }); 
+        } 
+    }); 
+})(); 
+</script> 
+<link type="image/png" rel="shortcut icon" href="https://github.com/TerryYang80/TerryThe67Rizzler/raw/refs/heads/main/EaglerFavicon" /> 
+</head> 
+<body style="margin:0px;width:100%;height:100%;overflow:hidden;background-color:honeydew;" id="game_frame"> 
+<div style="margin:0px;width:100%;height:100%;font-family:sans-serif;display:flex;align-items:center;user-select:none;" id="launch_countdown_screen"> 
+<div style="margin:auto;text-align:center;"> 
+<h1>This file was made in <span style="color:#AA0000;">06/08/2026</span></h1> 
+<h2>{Press Any Button To Continue} [///<span id="launchCountdownNumber">100</span>///]</h2> 
+<div style="border:2px solid black;width:100%;height:15px;padding:1px;margin-bottom:20vh;"> 
+<div id="launchCountdownProgress" style="background-color:#AA0000;width:0%;height:100%;"></div> 
+<p style="margin-top:30px;"> 
+<button id="ClassroomX" autofocus>Inject Classroom-X</button> &emsp; 
+<button id="DriveX"> Inject DriveX</button> &emsp; 
+<button id="bootMenu">MASTER BOOT RECORD</button> 
+</p> 
+</div> 
+</div> 
+</div> 
+</body> 
+</html>
