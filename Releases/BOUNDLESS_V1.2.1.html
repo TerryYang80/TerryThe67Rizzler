@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html style="width:100%;height:100%;background-color:black;">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+<meta name="description" content="EaglercraftX 1.8 Offline" />
+<meta name="keywords" content="eaglercraft, eaglercraftx, minecraft, 1.8, 1.8.8" />
+<title>EaglercraftX 1.8</title>
+<meta property="og:locale" content="en-US" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="EaglercraftX 1.8 Offline" />
+<meta property="og:description" content="dih" />
+<script type="text/javascript">
+"use strict";
+var relayId = Math.floor(Math.random() * 3);
+
+// %%%%%%%%% launch options %%%%%%%%%%%%
+window.eaglercraftXOpts = {
+	container: "game_frame",
+	worldsDB: "worlds",
+
+	assetsURI: "https://raw.githubusercontent.com/TerryYang80/TerryThe67Rizzler/main/Assets/assetsV110.epk",
+
+
+	relays: [
+		{ addr: "wss://relay.deev.is/", comment: "lax1dude relay #1", primary: relayId == 0 },
+		{ addr: "wss://relay.lax1dude.net/", comment: "lax1dude relay #2", primary: relayId == 1 },
+		{ addr: "wss://relay.shhnowisnottheti.me/", comment: "ayunami relay #1", primary: relayId == 2 }
+	]
+};
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+</script>
+<script src="https://cdn.jsdelivr.net/gh/TerryYang80/TerryThe67Rizzler@main/MAINJS/mainV120.js">
+</script>
+
+<!--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+
+<script type="text/javascript">
+"use strict";
+
+// Kept at 1000 per your configuration
+const countNumb = 1000; 
+
+(function(){
+
+    var launchInterval = -1;
+    var launchCounter = 1;
+    var launchCountdownNumberElement = null;
+    var launchCountdownProgressElement = null;
+    var launchSkipCountdown = false;
+
+    var launchTick = function() {
+        // Keeps your original countdown math calculations running
+        launchCountdownNumberElement.innerText = "" + Math.floor(1000.0 - launchCounter * 0.06);
+        launchCountdownProgressElement.style.width = "" + launchCounter + "%";
+        
+        if(++launchCounter > countNumb || launchSkipCountdown) {
+            clearInterval(launchInterval);
+            setTimeout(function() { 
+                var screen = document.getElementById("launch_countdown_screen");
+                if (screen) {
+                    document.body.removeChild(screen); 
+                }
+                document.body.style.backgroundColor = "black"; 
+                if (typeof main === "function") main(); 
+            }, countNumb);
+        }
+    };
+
+    window.addEventListener("load", function() {
+        launchCountdownNumberElement = document.getElementById("launchCountdownNumber");
+        launchCountdownProgressElement = document.getElementById("launchCountdownProgress");
+        
+        // This triggers the launchTick function based on countNumb speed
+        launchInterval = setInterval(launchTick, countNumb);
+
+        // MASTER BOOT RECORD Button
+        document.getElementById("bootMenu").addEventListener("click", function() {
+            launchSkipCountdown = true;
+            if (!window.eaglercraftXOpts) window.eaglercraftXOpts = {};
+            window.eaglercraftXOpts.showBootMenuOnLaunch = true;
+        });
+
+
+        // CLASSROOM-X INJECTOR
+
+        var classroomBtn = document.getElementById("ClassroomX");
+        if (classroomBtn) {
+            classroomBtn.addEventListener("click", function() {
+                // 1. Skip the countdown instantly
+                launchSkipCountdown = true;
+
+                // 2. Cloak the tab title and favicon
+                document.title = "Home - Classroom";  
+                var link = document.querySelector("link[rel*='icon']") || document.createElement('link');  
+                link.type = 'image/x-icon';  
+                link.rel = 'shortcut icon';  
+                link.href = 'https://raw.githubusercontent.com/TerryYang80/TerryThe67Rizzler/main/192px.svg';  
+                document.getElementsByTagName('head')[0].appendChild(link);  
+                
+                // 3. Alert confirmation
+                alert("Google Classroom X Injected");
+            });
+        };
+
+
+        // DRIVE-X INJECTOR
+
+        var driveBtn = document.getElementById("DriveX");
+        if (driveBtn) {
+            driveBtn.addEventListener("click", function() {
+                // 1. Skip the countdown instantly
+                launchSkipCountdown = true;
+
+                // 2. Cloak the tab title and favicon
+                document.title = "Recent - Google Drive";  
+                var link = document.querySelector("link[rel*='icon']") || document.createElement('link');  
+                link.type = 'image/x-icon';  
+                link.rel = 'shortcut icon';  
+                link.href = 'https://raw.githubusercontent.com/TerryYang80/TerryThe67Rizzler/main/DriveFavicon.png';  
+                document.getElementsByTagName('head')[0].appendChild(link);  
+                
+                // 3. Alert confirmation
+                alert("Google Drive X Injected");
+            });
+        }
+
+
+
+
+    });
+})();
+</script>
+<link type="image/png" rel="shortcut icon" href="https://github.com/TerryYang80/TerryThe67Rizzler/raw/refs/heads/main/EaglerFavicon" />
+</head>
+<body style="margin:0px;width:100%;height:100%;overflow:hidden;background-color:honeydew;" id="game_frame">
+<div style="margin:0px;width:100%;height:100%;font-family:sans-serif;display:flex;align-items:center;user-select:none;" id="launch_countdown_screen">
+<div style="margin:auto;text-align:center;">
+<h1>This file was made in <span style="color:#AA0000;">05/19/2026</span></h1>
+<h2>{Press Any Button To Continue} [///<span id="launchCountdownNumber">100</span>///]</h2>
+<div style="border:2px solid black;width:100%;height:15px;padding:1px;margin-bottom:20vh;">
+    <div id="launchCountdownProgress" style="background-color:#AA0000;width:0%;height:100%;"></div>
+    <p style="margin-top:30px;">
+        <button id="ClassroomX" autofocus>Inject Classroom-X</button>
+        &emsp;
+        <button id="DriveX"> Inject DriveX</button>
+        &emsp;
+        <button id="bootMenu">MASTER BOOT RECORD</button>
+    </p>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+
+
+
